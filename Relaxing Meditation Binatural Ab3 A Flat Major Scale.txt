@@ -1,0 +1,34 @@
+use_bpm 20
+use_random_seed 1
+use_synth :organ_tonewheel
+
+define :left do
+  live_loop :leftloop do
+    set :sleeptimetime, rrand_i(1, 4)
+    curvetime = get[:sleeptimetime] / 2 + 0.5
+    play choose((scale :Ab3, :major)), pan: -1 , attack: curvetime, release: curvetime, amp: 0.5, cutoff: 40, rs_freq: 0.1
+    
+    sleep get[:sleeptimetime]
+  end
+  sleep get[:sleeptimetime]
+end
+
+define :right do
+  live_loop :rightloop do
+    set :sleeptimetime2, rrand_i(1, 4)
+    curvetime = get[:sleeptimetime2] / 2 + 0.1
+    play choose((scale :Ab3, :major)), pan: 1 , attack: curvetime, release: curvetime, amp: 0.5, cutoff: 40, rs_freq: 0.1
+    sleep get[:sleeptimetime2]
+  end
+  sleep get[:sleeptimetime2]
+end
+
+
+in_thread do
+  left
+end
+
+in_thread do
+  right
+end
+
